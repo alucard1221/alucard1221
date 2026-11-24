@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Belek Resume</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+/* Layout idea: graphite and lavender bands, no boxes. Motion: letter rise, network canvas, decrypt text, marquee, marker sweep, magnetic links. */
+:root{
+  --graphite:#1d1f25;
+  --graphite2:#2c2f38;
+  --lav:#b9a7ff;
+  --lav-soft:#e9e4f8;
+  --lav-deep:#5a3fd0;
+  --ink:#1d1f25;
+  --display:"Manrope","Segoe UI",system-ui,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
+  color-scheme:dark;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;background:var(--graphite)}
+body{font-family:var(--display);font-size:17px;line-height:1.65;overflow-x:hidden;background:var(--graphite);color:#f1f0f7}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--lav);outline-offset:3px}
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+h1,h2,h3{line-height:1.05;text-wrap:balance}
+.tag{display:block;font:400 13px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ac)}
+section{padding:100px 0}
+.dark{background:var(--graphite);color:#f1f0f7;--muted:#a9acbc;--rule:rgba(233,228,248,.2);--ac:var(--lav)}
+.light{background:var(--lav-soft);color:var(--ink);--muted:#5d6072;--rule:rgba(29,31,37,.18);--ac:var(--lav-deep)}
+h2{font-size:clamp(34px,6vw,68px);font-weight:800;letter-spacing:-.04em;margin:14px 0 48px}
+
+/* progress + nav */
+.progress{position:fixed;left:0;top:0;height:3px;width:100%;background:var(--lav);transform:scaleX(0);transform-origin:left;z-index:100}
+nav{position:sticky;top:0;z-index:50;background:var(--graphite);color:#f1f0f7;border-bottom:1px solid rgba(233,228,248,.12)}
+nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-top:14px;padding-bottom:14px}
+.logo{font:700 15px var(--mono);text-decoration:none}
+.logo b{color:var(--lav)}
+.navlinks{display:flex;gap:26px;font-size:14px;font-weight:500}
+.navlinks a{position:relative;text-decoration:none;color:#a9acbc;transition:color .2s;padding:4px 0;white-space:nowrap}
+.navlinks a:hover,.navlinks a.active{color:#fff}
+.navlinks a::after{content:"";position:absolute;left:0;bottom:-2px;height:2px;width:100%;background:var(--lav);transform:scaleX(0);transform-origin:left;transition:transform .3s}
+.navlinks a.active::after{transform:scaleX(1)}
+.lang{display:flex;gap:4px}
+.lang button{background:none;border:0;border-bottom:2px solid transparent;color:#a9acbc;font:700 12px var(--mono);padding:6px 8px;cursor:pointer}
+.lang button[aria-pressed="true"]{color:var(--lav);border-color:var(--lav)}
+@media(max-width:700px){
+  nav .wrap{flex-wrap:wrap;row-gap:0;padding-bottom:8px}
+  .navlinks{order:3;width:100%;overflow-x:auto;gap:20px;padding:6px 0 4px;scrollbar-width:none}
+  .navlinks::-webkit-scrollbar{display:none}
+}
+
+/* hero */
+.hero{padding:60px 0 90px;position:relative;overflow:hidden}
+#net{position:absolute;inset:0;width:100%;height:100%;display:block}
+.orb{position:absolute;border-radius:50%;opacity:.3;pointer-events:none}
+.o1{width:420px;height:420px;background:radial-gradient(circle,#8a6bff,transparent 68%);right:-120px;top:-140px}
+.o2{width:340px;height:340px;background:radial-gradient(circle,#c9b8ff,transparent 68%);left:-160px;bottom:-180px}
+.hero .wrap{position:relative}
+.status{display:flex;align-items:center;gap:10px;font:400 13px var(--mono);color:var(--lav);margin-bottom:30px}
+.status i{width:8px;height:8px;border-radius:50%;background:var(--lav);animation:pulse 1.8s infinite}
+@keyframes pulse{50%{opacity:.25}}
+.hero h1{font-size:clamp(84px,21vw,260px);font-weight:800;letter-spacing:-.06em;line-height:.9;display:flex;flex-wrap:wrap;overflow:hidden;padding-bottom:.06em}
+.ch{display:inline-block;animation:rise 1s cubic-bezier(.2,.9,.2,1) both;animation-delay:calc(var(--i) * 80ms + 150ms);transition:transform .3s,color .3s}
+.ch:hover{transform:translateY(-.08em) rotate(-4deg);color:var(--lav)}
+.ch.dotc{color:var(--lav)}
+@keyframes rise{from{transform:translateY(105%) rotate(6deg);opacity:0}}
+.hero-row{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;margin-top:48px;align-items:end}
+@media(max-width:820px){.hero-row{grid-template-columns:1fr}}
+.role{font-size:clamp(20px,2.6vw,28px);color:#cfd0dc;max-width:560px;font-weight:500}
+.role strong{color:#fff;font-weight:800}
+.facts{display:grid}
+.facts div{display:flex;justify-content:space-between;gap:16px;padding:12px 0;border-top:1px solid rgba(233,228,248,.22);font-size:15px}
+.facts div:last-child{border-bottom:1px solid rgba(233,228,248,.22)}
+.facts dt{font:400 12px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:#a9acbc;padding-top:3px}
+.facts dd{font-weight:700;text-align:right}
+
+/* marquee */
+.marquee{background:var(--lav);color:var(--graphite);overflow:hidden;white-space:nowrap;padding:18px 0}
+.marquee .track{display:inline-flex;animation:slide 60s linear infinite;will-change:transform}
+.marquee span{font:800 clamp(24px,4vw,44px) var(--display);letter-spacing:-.03em;padding:0 26px}
+.marquee span:nth-child(even){font-weight:400;opacity:.6}
+@keyframes slide{to{transform:translateX(-50%)}}
+
+/* statement */
+.statement{font-size:clamp(26px,4vw,46px);line-height:1.3;font-weight:700;letter-spacing:-.025em;max-width:980px}
+.statement mark{color:var(--lav-deep);background:linear-gradient(var(--lav),var(--lav)) no-repeat 0 90%/100% .38em;padding:0 .06em}
+.pre mark{background-size:0 .38em}
+.reveal mark{transition:background-size 1s cubic-bezier(.2,.8,.2,1) .5s}
+.mini{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));margin-top:64px;border-top:1px solid var(--rule)}
+.mini div{padding:22px 20px 0 0}
+.mini div+div{padding-left:20px;border-left:1px solid var(--rule)}
+@media(max-width:620px){.mini div+div{border-left:0;padding-left:0}}
+.mini b{display:block;font-size:22px;letter-spacing:-.02em}
+.mini span{font:400 12px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+
+/* keepo halves */
+.keepo{padding:0}
+.keepo-head{padding:100px 0 56px}
+.keepo-head h2{margin-bottom:20px}
+.halves{display:grid;grid-template-columns:1fr 1fr}
+@media(max-width:820px){.halves{grid-template-columns:1fr}}
+.half{padding:90px clamp(20px,5vw,64px);display:flex;flex-direction:column;gap:18px;min-height:540px;position:relative;overflow:hidden}
+.half::after{content:"";position:absolute;width:420px;height:420px;border-radius:50%;right:-160px;bottom:-160px;background:currentColor;opacity:.07}
+.half.a{background:var(--lav);color:var(--graphite)}
+.half.b{background:var(--graphite2);color:#f1f0f7}
+.half>*{position:relative}
+.half .tag{color:inherit;opacity:.7}
+.half h3{font-size:clamp(46px,8vw,96px);font-weight:800;letter-spacing:-.05em}
+.half.b h3{color:var(--lav)}
+.half p{font-size:19px;max-width:440px;font-weight:500}
+.half .q{opacity:.78;font-size:16px}
+.big-link{margin-top:auto;display:inline-flex;align-items:center;gap:14px;font:800 24px var(--display);text-decoration:none;letter-spacing:-.02em;padding-bottom:6px;border-bottom:3px solid currentColor;align-self:flex-start;transition:gap .25s}
+.big-link:hover{gap:26px}
+
+/* path rows */
+.rows{border-top:1px solid var(--rule)}
+.row{display:grid;grid-template-columns:200px 1fr 1.2fr;gap:24px;padding:34px 0;border-bottom:1px solid var(--rule);align-items:baseline;position:relative}
+.row::after{content:"";position:absolute;left:0;bottom:-1px;height:2px;width:100%;background:var(--ac);transform:scaleX(0);transform-origin:left}
+.row:hover::after,.row.in::after{transform:scaleX(1)}
+.row.in::after{transition-duration:1.4s}
+.row .tag{padding-top:6px}
+.row h3{font-size:clamp(24px,3vw,36px);font-weight:800;letter-spacing:-.03em}
+.row p{color:var(--muted)}
+.row.now .tag::before{content:"● ";animation:pulse 1.8s infinite}
+@media(max-width:820px){.row{grid-template-columns:1fr;gap:8px}}
+
+/* skills */
+.skills{display:grid;grid-template-columns:1fr 1fr;gap:0 64px}
+@media(max-width:820px){.skills{grid-template-columns:1fr}}
+.skill{padding:22px 0;border-top:1px solid var(--rule)}
+.skill .top{display:flex;justify-content:space-between;align-items:baseline;gap:16px;margin-bottom:14px}
+.skill .top span{font-size:clamp(22px,2.6vw,30px);font-weight:800;letter-spacing:-.03em}
+.skill .top em{font:400 13px var(--mono);font-style:normal;color:var(--muted)}
+.bar{height:4px;background:var(--rule);position:relative}
+.bar i{position:absolute;left:0;top:-3px;height:10px;width:var(--w);background:var(--ac);transform-origin:left}
+.bar i::after{content:"";position:absolute;right:-6px;top:-4px;width:18px;height:18px;border-radius:50%;background:var(--ac);box-shadow:0 0 0 6px rgba(185,167,255,.25)}
+.bar.go i{animation:fill 1.6s cubic-bezier(.2,.8,.2,1)}
+@keyframes fill{from{transform:scaleX(0)}}
+
+/* contact */
+.links{border-top:1px solid var(--rule)}
+.links a,.links button{display:flex;justify-content:space-between;align-items:center;gap:20px;width:100%;text-align:left;background:none;border:0;border-bottom:1px solid var(--rule);color:inherit;font:800 clamp(28px,6vw,72px)/1.1 var(--display);letter-spacing:-.04em;padding:26px 0;text-decoration:none;cursor:pointer;transition:color .25s,padding-left .3s}
+.links a:hover,.links button:hover{color:var(--ac);padding-left:18px}
+.links small{font:400 14px var(--mono);letter-spacing:0;color:var(--muted)}
+
+footer{padding:36px 0 48px;font:400 13px var(--mono);color:#a9acbc;background:var(--graphite)}
+
+.pre{opacity:0;transform:translateY(14px)}
+.reveal{transition:opacity .6s,transform .6s}
+.reveal.in{opacity:1;transform:none}
+
+/* cursor */
+.dot,.ring{position:fixed;left:0;top:0;pointer-events:none;z-index:999;border-radius:50%;display:none}
+.dot{width:7px;height:7px;background:#8a6bff;margin:-3.5px 0 0 -3.5px}
+.ring{width:38px;height:38px;border:1px solid #8a6bff;margin:-19px 0 0 -19px;transition:width .2s,height .2s,margin .2s}
+.ring.big{width:70px;height:70px;margin:-35px 0 0 -35px}
+@media(hover:hover) and (pointer:fine){.dot,.ring{display:block}}
+
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.pre{opacity:1;transform:none}.pre mark{background-size:100% .38em}}
+</style>
+</head>
+<body>
+<div class="progress" id="progress"></div>
+<div class="dot" id="dot"></div><div class="ring" id="ring"></div>
+
+<nav>
+  <div class="wrap">
+    <a class="logo" href="#top">belek<b>_</b></a>
+    <div class="navlinks">
+      <a href="#about" data-i18n="nav_about">Обо мне</a>
+      <a href="#keepo">KEEPO</a>
+      <a href="#path" data-i18n="nav_path">Путь</a>
+      <a href="#skills" data-i18n="nav_skills">Навыки</a>
+      <a href="#contact" data-i18n="nav_contact">Контакты</a>
+    </div>
+    <div class="lang" role="group" aria-label="Language">
+      <button type="button" data-lang="ru" aria-pressed="true">RU</button>
+      <button type="button" data-lang="en" aria-pressed="false">EN</button>
+    </div>
+  </div>
+</nav>
+
+<header class="hero dark" id="top">
+  <div class="orb o1" aria-hidden="true"></div><div class="orb o2" aria-hidden="true"></div>
+  <canvas id="net" aria-hidden="true"></canvas>
+  <div class="wrap">
+    <div class="status"><i></i><span data-i18n="status">студент · Enactus · KEEPO</span></div>
+    <h1 aria-label="Belek."><span class="ch" style="--i:0">B</span><span class="ch" style="--i:1">e</span><span class="ch" style="--i:2">l</span><span class="ch" style="--i:3">e</span><span class="ch" style="--i:4">k</span><span class="ch dotc" style="--i:5">.</span></h1>
+    <div class="hero-row">
+      <p class="role" data-i18n-html="role">x</p>
+      <dl class="facts">
+        <div><dt data-i18n="b_edu">Колледж</dt><dd>Engineering College LA</dd></div>
+        <div><dt data-i18n="b_dir">Направление</dt><dd data-i18n="b_dir_v">Кибербезопасность / ПИ</dd></div>
+        <div><dt data-i18n="b_team">Команда</dt><dd>Enactus · KEEPO</dd></div>
+        <div><dt data-i18n="b_sport">Спорт</dt><dd data-i18n="b_sport_v">Дзюдо</dd></div>
+      </dl>
+    </div>
+  </div>
+</header>
+
+<div class="marquee" aria-hidden="true"><div class="track" id="marq"></div></div>
+
+<section id="about" class="light">
+  <div class="wrap">
+    <span class="tag">01 / <span data-i18n="nav_about">Обо мне</span></span>
+    <h2 data-i18n="h_about">Кто я</h2>
+    <p class="statement reveal" data-i18n-html="statement">x</p>
+    <div class="mini reveal">
+      <div><b>Engineering College LA</b><span data-i18n="m1">колледж</span></div>
+      <div><b data-i18n="m2v">1 курс</b><span data-i18n="m2">учёба</span></div>
+      <div><b>Enactus</b><span data-i18n="m3">команда</span></div>
+      <div><b data-i18n="m4v">Дзюдо</b><span data-i18n="m4">спорт</span></div>
+      <div><b>English</b><span data-i18n="m5">учу</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="keepo" class="keepo">
+  <div class="keepo-head dark">
+    <div class="wrap">
+      <span class="tag">02 / KEEPO</span>
+      <h2 data-i18n="k_h">x</h2>
+      <p class="role" data-i18n="k_intro">x</p>
+    </div>
+  </div>
+  <div class="halves">
+    <article class="half a">
+      <span class="tag" data-i18n="k_pill">идёт опрос</span>
+      <h3>KEEPO Kids</h3>
+      <p data-i18n="k1_p">x</p>
+      <p class="q" data-i18n="k1_q">x</p>
+      <a class="big-link magnet" href="https://forms.gle/91DucFfWtmPQaVhx8" target="_blank" rel="noopener"><span data-i18n="k_btn">Пройти опрос</span> →</a>
+    </article>
+    <article class="half b">
+      <span class="tag" data-i18n="k_pill">идёт опрос</span>
+      <h3>KEEPO SOS</h3>
+      <p data-i18n="k2_p">x</p>
+      <p class="q" data-i18n="k2_q">x</p>
+      <a class="big-link magnet" href="https://forms.gle/5gj5SWt7GABScmrJ8" target="_blank" rel="noopener"><span data-i18n="k_btn">Пройти опрос</span> →</a>
+    </article>
+  </div>
+</section>
+
+<section id="path" class="light">
+  <div class="wrap">
+    <span class="tag">03 / <span data-i18n="nav_path">Путь</span></span>
+    <h2 data-i18n="h_path">Мой путь</h2>
+    <div class="rows">
+      <div class="row reveal"><span class="tag" data-i18n="s1_w">x</span><h3 data-i18n="s1_t">x</h3><p data-i18n="s1_p">x</p></div>
+      <div class="row reveal"><span class="tag" data-i18n="s2_w">x</span><h3 data-i18n="s2_t">x</h3><p data-i18n="s2_p">x</p></div>
+      <div class="row now reveal"><span class="tag" data-i18n="s3_w">x</span><h3 data-i18n="s3_t">x</h3><p data-i18n="s3_p">x</p></div>
+      <div class="row reveal"><span class="tag" data-i18n="s4_w">x</span><h3 data-i18n="s4_t">x</h3><p data-i18n="s4_p">x</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="skills" class="dark">
+  <div class="wrap">
+    <span class="tag">04 / <span data-i18n="nav_skills">Навыки</span></span>
+    <h2 data-i18n="h_skills">Навыки</h2>
+    <div class="skills" id="skillList"></div>
+  </div>
+</section>
+
+<section id="contact" class="light">
+  <div class="wrap">
+    <span class="tag">05 / <span data-i18n="nav_contact">Контакты</span></span>
+    <h2 data-i18n="h_contact">На связи</h2>
+    <div class="links">
+      <a href="https://t.me/belek_all" target="_blank" rel="noopener">Telegram <small>@belek_all ↗</small></a>
+      <a href="https://github.com/alucard1221" target="_blank" rel="noopener">GitHub <small>alucard1221 ↗</small></a>
+      <button type="button" id="copyTg"><span data-i18n="copy">Скопировать Telegram</span> <small>@belek_all</small></button>
+    </div>
+  </div>
+</section>
+
+<footer><div class="wrap">© 2026 Belek · Engineering College LA</div></footer>
+
+<script>
+var L = {
+ru:{nav_about:"Обо мне",nav_path:"Путь",nav_skills:"Навыки",nav_contact:"Контакты",status:"студент · Enactus · KEEPO",
+role:"Студент 1 курса, выбираю между <strong>кибербезопасностью</strong> и <strong>программной инженерией</strong>.",
+h_about:"Кто я",h_path:"Мой путь",h_skills:"Навыки",h_contact:"На связи",
+b_edu:"Колледж",b_dir:"Направление",b_dir_v:"Кибербезопасность / ПИ",b_team:"Команда",b_sport:"Спорт",b_sport_v:"Дзюдо",
+statement:"Я учусь на 1 курсе в Engineering College LA и выбираю между <mark>кибербезопасностью</mark> и <mark>программной инженерией</mark>. Состою в Enactus и вместе с командой делаю <mark>KEEPO</mark>. Занимаюсь <mark>дзюдо</mark> и каждый день учу <mark>английский</mark>.",
+m1:"колледж",m2v:"1 курс",m2:"учёба",m3:"команда",m4v:"Дзюдо",m4:"спорт",m5:"учу",
+k_h:"Проект, над которым мы работаем",k_intro:"Мы студенты Engineering College LA и команда Enactus. Проект на старте, поэтому мы собираем мнения людей.",
+k_pill:"идёт опрос",k_btn:"Пройти опрос",
+k1_p:"Незаметный трекер на одежду для безопасности детей, особенно с ОВЗ.",
+k1_q:"Мы спрашиваем родителей, что для них важно и что вызывает опасения. Опрос анонимный, 3 минуты.",
+k2_p:"Устройство с кнопкой экстренного вызова. В опасной ситуации оно отправляет геолокацию доверенным контактам.",
+k2_q:"Мы спрашиваем, какие функции нужны и какой формат устройства удобнее. Опрос анонимный и короткий.",
+s1_w:"До колледжа",s1_t:"Дзюдо и английский",s1_p:"Начал тренироваться и учить язык. Эти привычки со мной до сих пор.",
+s2_w:"1 курс",s2_t:"Engineering College LA",s2_p:"Поступил и начал изучать основы IT: от программирования до безопасности.",
+s3_w:"Сейчас",s3_t:"Enactus и KEEPO",s3_p:"Вместе с командой разрабатываем KEEPO Kids и KEEPO SOS и собираем мнения через опросы.",
+s4_w:"Дальше",s4_t:"Выбор направления",s4_p:"Кибербезопасность или программная инженерия. Пробую оба пути и строю первые проекты на GitHub.",
+copy:"Скопировать Telegram",copied:"Скопировано",
+marq:["Кибербезопасность","Программная инженерия","Enactus","KEEPO Kids","KEEPO SOS","Дзюдо","English"]},
+en:{nav_about:"About",nav_path:"Path",nav_skills:"Skills",nav_contact:"Contact",status:"student · Enactus · KEEPO",
+role:"First-year student choosing between <strong>cybersecurity</strong> and <strong>software engineering</strong>.",
+h_about:"Who I am",h_path:"My path",h_skills:"Skills",h_contact:"Get in touch",
+b_edu:"College",b_dir:"Direction",b_dir_v:"Cybersecurity / SE",b_team:"Team",b_sport:"Sport",b_sport_v:"Judo",
+statement:"I'm in my first year at Engineering College LA, choosing between <mark>cybersecurity</mark> and <mark>software engineering</mark>. I'm part of Enactus and build <mark>KEEPO</mark> with my team. I practice <mark>judo</mark> and study <mark>English</mark> every day.",
+m1:"college",m2v:"Year 1",m2:"studies",m3:"team",m4v:"Judo",m4:"sport",m5:"learning",
+k_h:"The project we are building",k_intro:"We are students of Engineering College LA and an Enactus team. The project is at its start, so we are collecting people's opinions.",
+k_pill:"survey open",k_btn:"Take the survey",
+k1_p:"A discreet tracker sewn into clothing to keep children safe, especially children with special needs.",
+k1_q:"We ask parents what matters to them and what worries them. The survey is anonymous and takes 3 minutes.",
+k2_p:"A device with an emergency button. In a dangerous situation it sends the location to trusted contacts.",
+k2_q:"We ask which features people need and which device format suits them. The survey is anonymous and short.",
+s1_w:"Before college",s1_t:"Judo and English",s1_p:"I started training and learning the language. Both habits are still with me.",
+s2_w:"Year 1",s2_t:"Engineering College LA",s2_p:"Enrolled and started on IT fundamentals, from programming to security.",
+s3_w:"Now",s3_t:"Enactus and KEEPO",s3_p:"With my team I'm developing KEEPO Kids and KEEPO SOS and collecting opinions through surveys.",
+s4_w:"Next",s4_t:"Choosing a direction",s4_p:"Cybersecurity or software engineering. Trying both and building my first projects on GitHub.",
+copy:"Copy Telegram",copied:"Copied",
+marq:["Cybersecurity","Software engineering","Enactus","KEEPO Kids","KEEPO SOS","Judo","English"]}
+};
+/* Edit levels here: 0-100. */
+var SKILLS=[
+ {ru:"Английский",en:"English",lvl:{ru:"учу",en:"learning"},v:45},
+ {ru:"Программная инженерия",en:"Software engineering",lvl:{ru:"начинаю",en:"starting"},v:30},
+ {ru:"Кибербезопасность",en:"Cybersecurity",lvl:{ru:"начинаю",en:"starting"},v:25},
+ {ru:"Командная работа",en:"Teamwork (Enactus)",lvl:{ru:"в деле",en:"in action"},v:60},
+ {ru:"Дзюдо",en:"Judo",lvl:{ru:"тренируюсь",en:"training"},v:55}
+];
+var lang="ru";
+var reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+var $=function(s){return document.querySelector(s)};
+function render(){
+  document.documentElement.lang=lang;
+  document.querySelectorAll("[data-i18n]").forEach(function(e){e.textContent=L[lang][e.dataset.i18n]});
+  document.querySelectorAll("[data-i18n-html]").forEach(function(e){e.innerHTML=L[lang][e.dataset.i18nHtml]});
+  document.querySelectorAll(".lang button").forEach(function(b){b.setAttribute("aria-pressed",b.dataset.lang===lang)});
+  var m=L[lang].marq.map(function(t){return "<span>"+t+"</span><span>✦</span>"}).join("");
+  $("#marq").innerHTML=m+m+m+m;
+  $("#skillList").innerHTML=SKILLS.map(function(s){
+    return '<div class="skill"><div class="top"><span>'+s[lang]+'</span><em>'+s.lvl[lang]+'</em></div><div class="bar go" style="--w:'+s.v+'%"><i></i></div></div>';
+  }).join("");
+}
+document.querySelectorAll(".lang button").forEach(function(b){b.addEventListener("click",function(){lang=b.dataset.lang;render()})});
+render();
+
+$("#copyTg").addEventListener("click",function(){
+  var b=this.querySelector("span");
+  try{navigator.clipboard.writeText("@belek_all").then(function(){b.textContent=L[lang].copied;setTimeout(function(){b.textContent=L[lang].copy},1500)},function(){})}catch(e){}
+});
+
+/* decrypt text effect: letters scramble, then settle on the real text */
+var CH="!<>-_\\/[]{}=+*^?#01";
+function scramble(el){
+  if(reduce||el.children.length||el.dataset.busy)return;
+  var end=el.textContent,n=end.length,f=0;el.dataset.busy=1;
+  var t=setInterval(function(){
+    var out="";
+    for(var i=0;i<n;i++){out+=(i<f/2||end[i]===" ")?end[i]:CH[Math.floor(Math.random()*CH.length)]}
+    el.textContent=out;f++;
+    if(f>n*2){clearInterval(t);el.textContent=end;delete el.dataset.busy}
+  },28);
+}
+setTimeout(function(){scramble($(".status span"))},900);
+
+/* scroll reveal */
+var io=new IntersectionObserver(function(es){es.forEach(function(e){
+  if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target)}
+})},{threshold:.15});
+document.querySelectorAll(".reveal").forEach(function(el){
+  if(el.getBoundingClientRect().top>innerHeight){el.classList.add("pre");requestAnimationFrame(function(){io.observe(el)})}
+});
+
+/* scroll progress */
+var prog=$("#progress");
+var scrolling=false,sT,tick=false;
+addEventListener("scroll",function(){
+  scrolling=true;clearTimeout(sT);sT=setTimeout(function(){scrolling=false},140);
+  if(!tick){tick=true;requestAnimationFrame(function(){var h=document.documentElement;prog.style.transform="scaleX("+(h.scrollTop/(h.scrollHeight-h.clientHeight||1))+")";tick=false})}
+},{passive:true});
+
+/* highlight current section in the menu */
+var navA=document.querySelectorAll(".navlinks a");
+var spy=new IntersectionObserver(function(es){es.forEach(function(e){
+  if(e.isIntersecting){
+    navA.forEach(function(a){
+      var on=a.getAttribute("href")==="#"+e.target.id;
+      a.classList.toggle("active",on);
+      if(on)a.setAttribute("aria-current","true");else a.removeAttribute("aria-current");
+      if(on&&a.scrollIntoView&&innerWidth<=700){var nl=a.parentNode;nl.scrollTo({left:a.offsetLeft-20,behavior:"smooth"})}
+    });
+  }
+})},{rootMargin:"-45% 0px -50% 0px"});
+document.querySelectorAll("header[id],section[id]").forEach(function(sec){spy.observe(sec)});
+addEventListener("scroll",function(){if(scrollY<80)navA.forEach(function(a){a.classList.remove("active");a.removeAttribute("aria-current")})},{passive:true});
+
+/* cursor, magnetic links */
+var dot=$("#dot"),ring=$("#ring"),rx=0,ry=0,mx=0,my=0;
+addEventListener("mousemove",function(e){mx=e.clientX;my=e.clientY;dot.style.transform="translate("+mx+"px,"+my+"px)"});
+(function loop(){rx+=(mx-rx)*.18;ry+=(my-ry)*.18;ring.style.transform="translate("+rx+"px,"+ry+"px)";requestAnimationFrame(loop)})();
+document.addEventListener("mouseover",function(e){ring.classList.toggle("big",!!e.target.closest("a,button,.row,.half"))});
+document.querySelectorAll(".magnet").forEach(function(m){
+  m.addEventListener("mousemove",function(e){var r=m.getBoundingClientRect();m.style.transform="translate("+((e.clientX-r.left-r.width/2)*.25)+"px,"+((e.clientY-r.top-r.height/2)*.4)+"px)"});
+  m.addEventListener("mouseleave",function(){m.style.transform=""});
+});
+
+/* network canvas in the hero: nodes drift, link when close, reach for the cursor */
+(function(){
+  var c=$("#net"),x=c.getContext("2d"),W,H,pts=[],hero=$(".hero"),run=true,looping=false,pm={x:-999,y:-999};
+  function size(){var d=Math.min(devicePixelRatio||1,2);W=hero.clientWidth;H=hero.clientHeight;c.width=W*d;c.height=H*d;x.setTransform(d,0,0,d,0,0);
+    var n=Math.min(48,Math.round(W*H/26000));pts=[];for(var i=0;i<n;i++)pts.push({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.35,vy:(Math.random()-.5)*.35})}
+  size();addEventListener("resize",size);
+  hero.addEventListener("mousemove",function(e){var r=hero.getBoundingClientRect();pm.x=e.clientX-r.left;pm.y=e.clientY-r.top});
+  hero.addEventListener("mouseleave",function(){pm.x=pm.y=-999});
+  new IntersectionObserver(function(es){run=es[0].isIntersecting;if(run&&!looping)frame()}).observe(hero);
+  function frame(){
+    if(!run){looping=false;return}
+    looping=true;
+    if(scrolling&&!reduce){requestAnimationFrame(frame);return}
+    x.clearRect(0,0,W,H);
+    for(var i=0;i<pts.length;i++){
+      var p=pts[i];p.x+=p.vx;p.y+=p.vy;
+      if(p.x<0||p.x>W)p.vx*=-1;if(p.y<0||p.y>H)p.vy*=-1;
+      var dx=pm.x-p.x,dy=pm.y-p.y,dm=Math.hypot(dx,dy);
+      if(dm<160){p.x+=dx*.012;p.y+=dy*.012;x.strokeStyle="rgba(185,167,255,"+(1-dm/160)*.8+")";x.beginPath();x.moveTo(p.x,p.y);x.lineTo(pm.x,pm.y);x.stroke()}
+      for(var j=i+1;j<pts.length;j++){
+        var q=pts[j],d=Math.hypot(p.x-q.x,p.y-q.y);
+        if(d<100){x.strokeStyle="rgba(185,167,255,"+(1-d/100)*.22+")";x.beginPath();x.moveTo(p.x,p.y);x.lineTo(q.x,q.y);x.stroke()}
+      }
+      x.fillStyle="rgba(215,205,255,.85)";x.beginPath();x.arc(p.x,p.y,1.8,0,6.283);x.fill();
+    }
+    if(!reduce)requestAnimationFrame(frame);else looping=false;
+  }
+  frame();
+})();
+</script>
+</body>
+</html>
